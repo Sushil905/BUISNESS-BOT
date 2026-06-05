@@ -1,8 +1,10 @@
 # BUISNESS BOT
 
-A Spring Boot chatbot for business sales, support, project estimates, and lead
-capture. The frontend is served from Spring Boot static resources and talks to a
-Java REST API.
+BUISNESS BOT AI is a Spring Boot business assistant that helps users generate
+business ideas, analyze markets, create business plans, evaluate competitors,
+and develop growth strategies through an intelligent conversational interface.
+The frontend is served from Spring Boot static resources and talks to a Java
+REST API.
 
 ## Run
 
