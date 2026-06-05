@@ -8,11 +8,21 @@ REST API.
 
 ## Run
 
-Install Maven, then run:
+Install Maven, set your OpenAI API key, then run:
 
 ```bash
+export OPENAI_API_KEY=your_api_key_here
 mvn spring-boot:run
 ```
+
+Optional model override:
+
+```bash
+export OPENAI_MODEL=gpt-5.5
+```
+
+If `OPENAI_API_KEY` is not set, the app still runs with local rule-based
+fallback answers.
 
 Open:
 
@@ -44,6 +54,7 @@ Content-Type: application/json
 - Customer persona builder
 - SWOT analysis generator
 - Chat history and saved reports through browser local storage
+- OpenAI-powered intelligent answers when `OPENAI_API_KEY` is configured
 - Spring Boot REST endpoint
 - Java service for chatbot replies
 - Business service matching

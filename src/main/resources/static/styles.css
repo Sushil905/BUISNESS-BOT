@@ -19,6 +19,7 @@
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   background:
     linear-gradient(140deg, rgba(15, 138, 106, 0.12), transparent 34%),
     linear-gradient(320deg, rgba(222, 91, 69, 0.12), transparent 32%),
@@ -180,7 +181,7 @@ h2 {
   min-height: 640px;
   border-radius: 8px;
   display: grid;
-  grid-template-rows: auto auto minmax(320px, 1fr) auto auto;
+  grid-template-rows: auto auto minmax(300px, 1fr) auto auto auto;
   overflow: hidden;
 }
 
@@ -236,6 +237,7 @@ h2 {
 }
 
 .messages {
+  min-width: 0;
   padding: 18px 24px;
   overflow-y: auto;
   display: flex;
@@ -247,11 +249,14 @@ h2 {
 }
 
 .message {
+  width: fit-content;
   max-width: min(76%, 520px);
   padding: 13px 15px;
   border-radius: 8px;
   line-height: 1.5;
   white-space: pre-line;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .message.bot {
@@ -260,8 +265,42 @@ h2 {
   border: 1px solid var(--line);
 }
 
+.message.typing {
+  color: var(--muted);
+  font-style: italic;
+}
+
 .message.user {
   align-self: flex-end;
+  background: var(--accent);
+  color: #fff;
+}
+
+.suggestions {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  overflow-x: auto;
+  background: #fbfdfc;
+  border-top: 1px solid var(--line);
+}
+
+.suggestions:empty {
+  display: none;
+}
+
+.suggestions button {
+  flex: 0 0 auto;
+  min-height: 36px;
+  border: 1px solid rgba(15, 138, 106, 0.28);
+  border-radius: 8px;
+  background: #eef8f4;
+  color: var(--accent-dark);
+  padding: 0 12px;
+  font-weight: 800;
+}
+
+.suggestions button:hover {
   background: var(--accent);
   color: #fff;
 }
