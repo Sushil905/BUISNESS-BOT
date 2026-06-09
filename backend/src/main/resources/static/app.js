@@ -1,6 +1,7 @@
 const messagesEl = document.querySelector("#messages");
 const form = document.querySelector("#chatForm");
 const input = document.querySelector("#messageInput");
+const appShell = document.querySelector(".chatgpt-shell");
 const resetButton = document.querySelector("#resetChat");
 const saveReportButton = document.querySelector("#saveReport");
 const clearReportsButton = document.querySelector("#clearReports");
@@ -14,6 +15,19 @@ const suggestionsEl = document.querySelector("#suggestions");
 const quickButtons = document.querySelectorAll("[data-prompt]");
 const modeButtons = document.querySelectorAll("[data-mode]");
 const depthButtons = document.querySelectorAll("[data-depth]");
+const accountButton = document.querySelector("#accountButton");
+const accountLabel = document.querySelector("#accountLabel");
+const accountModal = document.querySelector("#accountModal");
+const closeAccountModalButton = document.querySelector("#closeAccountModal");
+const accountForm = document.querySelector("#accountForm");
+const accountNameInput = document.querySelector("#accountNameInput");
+const accountEmailInput = document.querySelector("#accountEmailInput");
+const accountPasswordInput = document.querySelector("#accountPasswordInput");
+const logoutAccountButton = document.querySelector("#logoutAccount");
+const uploadToolButton = document.querySelector("#uploadTool");
+const voiceToolButton = document.querySelector("#voiceTool");
+const webSearchToolButton = document.querySelector("#webSearchTool");
+const deepResearchToolButton = document.querySelector("#deepResearchTool");
 
 const greeting =
   "Namaste! Main BUISNESS BOT hoon. Ab tum kisi bhi domain ka question pooch sakte ho - science, coding, career, finance, business, writing, daily life. Main direct answer, reasoning, example, aur next steps dunga.";
@@ -21,6 +35,7 @@ const greeting =
 const chatKey = "buisnessBotChat";
 const reportsKey = "buisnessBotReports";
 const sessionKey = "buisnessBotSession";
+const accountKey = "buisnessBotAccount";
 
 let sessionId = localStorage.getItem(sessionKey) || crypto.randomUUID();
 let chatHistory = loadJson(chatKey, []);
@@ -29,6 +44,7 @@ let latestBotReply = "";
 let responseMode = "advisor";
 let responseDepth = "standard";
 let selectedAttachments = [];
+let currentAccount = loadJson(accountKey, null);
 
 localStorage.setItem(sessionKey, sessionId);
 
@@ -46,6 +62,131 @@ function persistChat() {
 
 function persistReports() {
   localStorage.setItem(reportsKey, JSON.stringify(savedReports));
+}
+
+function persistAccount(account) {
+  localStorage.setItem(accountKey, JSON.stringify(account));
+}
+
+function renderAccount() {
+  if (!accountLabel) return;
+  accountLabel.textContent = currentAccount?.name || "User";
+  logoutAccountButton.hidden = !currentAccount;
+  updateChatAccess();
+}
+
+function isLoggedIn() {
+  return Boolean(currentAccount?.email);
+}
+
+function updateChatAccess() {
+  const locked = !isLoggedIn();
+  appShell.classList.toggle("is-locked", locked);
+  input.disabled = locked;
+  fileInput.disabled = locked;
+  attachButton.classList.toggle("disabled", locked);
+  input.placeholder = locked ? "Login to use Business Bot" : "Ask anything";
+}
+
+function requireAccount() {
+  if (isLoggedIn()) return true;
+  addMessage("bot", "Pehle Login/Create Account karo, phir Business Bot chat, uploads, reports aur tools use kar sakte ho.", false);
+  openAccountModal();
+  return false;
+}
+
+function openAccountModal() {
+  accountModal.hidden = false;
+  accountNameInput.value = currentAccount?.name || "";
+  accountEmailInput.value = currentAccount?.email || "";
+  accountPasswordInput.value = "";
+  accountNameInput.focus();
+}
+
+function closeAccountModal() {
+  accountModal.hidden = true;
+}
+
+function createOrLoginAccount(event) {
+  event.preventDefault();
+  const name = accountNameInput.value.trim();
+  const email = accountEmailInput.value.trim();
+  const password = accountPasswordInput.value.trim();
+
+  if (!name || !email || password.length < 6) {
+    addMessage("bot", "Account create karne ke liye name, valid email, aur minimum 6 character password required hai.");
+    return;
+  }
+
+  currentAccount = {
+    name,
+    email,
+    createdAt: currentAccount?.createdAt || new Date().toISOString(),
+  };
+  persistAccount(currentAccount);
+  renderAccount();
+  closeAccountModal();
+  addMessage("bot", `Welcome ${name}! Tumhara local Business Bot account ready hai.`);
+  input.focus();
+}
+
+function logoutAccount() {
+  localStorage.removeItem(accountKey);
+  currentAccount = null;
+  renderAccount();
+  closeAccountModal();
+  addMessage("bot", "Logged out. Tum dobara Login se account create/sign in kar sakte ho.");
+}
+
+function openUploadPicker() {
+  if (!requireAccount()) return;
+  fileInput.click();
+}
+
+function startVoiceInput() {
+  if (!requireAccount()) return;
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    addMessage("bot", "Voice input is browser dependent. Chrome me microphone speech recognition usually supported hota hai.");
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = "en-IN";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  voiceToolButton.classList.add("listening");
+  recognition.start();
+
+  recognition.addEventListener("result", (event) => {
+    const transcript = event.results[0][0].transcript;
+    input.value = transcript;
+    input.focus();
+  });
+
+  recognition.addEventListener("end", () => {
+    voiceToolButton.classList.remove("listening");
+  });
+
+  recognition.addEventListener("error", () => {
+    voiceToolButton.classList.remove("listening");
+    addMessage("bot", "Voice capture nahi ho paya. Microphone permission aur browser support check karo.");
+  });
+}
+
+function prepareWebSearch() {
+  if (!requireAccount()) return;
+  input.value = "Web Search: ";
+  input.focus();
+  addMessage("bot", "Web Search mode ready. Topic type karo; main current-web style answer structure bana dunga. Real live browsing ke liye backend search API connect karna padega.", false);
+}
+
+function prepareDeepResearch() {
+  if (!requireAccount()) return;
+  input.value = "Deep Research: ";
+  input.focus();
+  addMessage("bot", "Deep Research mode ready. Topic type karo; main sources, assumptions, comparison, and action steps ke saath detailed research format banaunga.", false);
 }
 
 function setSuggestions(prompts) {
@@ -168,6 +309,8 @@ function readTextSnippet(file) {
 }
 
 async function addFiles(files) {
+  if (!requireAccount()) return;
+
   const allowedFiles = Array.from(files).filter((file) => {
     const category = getFileCategory(file);
     return ["image", "video", "pdf", "presentation"].includes(category);
@@ -317,6 +460,8 @@ async function askBot(text, attachments = []) {
 }
 
 async function sendMessage(text) {
+  if (!requireAccount()) return;
+
   const cleanText = text.trim();
   const hasAttachments = selectedAttachments.length > 0;
   if (!cleanText && !hasAttachments) return;
@@ -343,6 +488,8 @@ async function sendMessage(text) {
 }
 
 function resetChat() {
+  if (!requireAccount()) return;
+
   sessionId = crypto.randomUUID();
   localStorage.setItem(sessionKey, sessionId);
   chatHistory = [];
@@ -354,6 +501,8 @@ function resetChat() {
 }
 
 function saveLatestReport() {
+  if (!requireAccount()) return;
+
   if (!latestBotReply || latestBotReply === greeting) {
     addMessage("bot", "Pehle koi report generate karo, phir save button dabao.");
     return;
@@ -406,6 +555,8 @@ function setActiveButton(buttons, activeButton) {
 }
 
 async function copyLatestReply() {
+  if (!requireAccount()) return;
+
   if (!latestBotReply || latestBotReply === greeting) {
     addMessage("bot", "Copy karne ke liye pehle koi answer generate karo.");
     return;
@@ -420,6 +571,8 @@ async function copyLatestReply() {
 }
 
 function exportChat() {
+  if (!requireAccount()) return;
+
   if (chatHistory.length === 0) {
     addMessage("bot", "Export karne ke liye chat me kuch messages hone chahiye.");
     return;
@@ -439,6 +592,12 @@ function exportChat() {
 
 function restoreChat() {
   messagesEl.innerHTML = "";
+
+  if (!isLoggedIn()) {
+    addMessage("bot", "Welcome to Business Bot. Login ya account create karo to chat, uploads, saved reports aur AI tools unlock ho jayenge.", false);
+    updateSuggestions("login required");
+    return;
+  }
 
   if (chatHistory.length === 0) {
     addMessage("bot", greeting);
@@ -500,6 +659,20 @@ saveReportButton.addEventListener("click", saveLatestReport);
 clearReportsButton.addEventListener("click", clearReports);
 copyLatestButton.addEventListener("click", copyLatestReply);
 exportChatButton.addEventListener("click", exportChat);
+accountButton.addEventListener("click", openAccountModal);
+closeAccountModalButton.addEventListener("click", closeAccountModal);
+accountForm.addEventListener("submit", createOrLoginAccount);
+logoutAccountButton.addEventListener("click", logoutAccount);
+uploadToolButton.addEventListener("click", openUploadPicker);
+voiceToolButton.addEventListener("click", startVoiceInput);
+webSearchToolButton.addEventListener("click", prepareWebSearch);
+deepResearchToolButton.addEventListener("click", prepareDeepResearch);
+accountModal.addEventListener("click", (event) => {
+  if (event.target === accountModal) {
+    closeAccountModal();
+  }
+});
 
 restoreChat();
 renderReports();
+renderAccount();

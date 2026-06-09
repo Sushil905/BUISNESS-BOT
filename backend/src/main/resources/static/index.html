@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BUISNESS BOT</title>
-    <link rel="stylesheet" href="styles.css?v=steady-sidebar-1" />
+    <link rel="stylesheet" href="styles.css?v=compact-bottom-1" />
   </head>
   <body>
     <div class="ai-background" aria-hidden="true">
@@ -27,85 +27,76 @@
           <span>New Chat</span>
         </button>
 
-        <nav class="primary-nav sidebar-group" aria-label="Primary">
-          <button type="button" data-prompt="Show my saved reports and useful outputs">
-            <span aria-hidden="true">📚</span>
-            <span>Library</span>
-          </button>
-          <button type="button" data-prompt="Open the learning hub and suggest study resources for business and AI">
-            <span aria-hidden="true">🎓</span>
-            <span>Learning Hub</span>
-          </button>
-          <button type="button" data-prompt="Show analytics ideas for my business chatbot">
-            <span aria-hidden="true">📊</span>
-            <span>Analytics</span>
-          </button>
-          <button type="button" data-prompt="Show my saved reports and useful outputs">
-            <span aria-hidden="true">💾</span>
-            <span>Saved Reports</span>
-          </button>
-        </nav>
+        <div class="sidebar-scroll">
+          <nav class="primary-nav sidebar-group" aria-label="Primary">
+            <button type="button" data-prompt="Open my Business Bot dashboard summary">
+              <span aria-hidden="true">▦</span>
+              <span>Dashboard</span>
+            </button>
+            <button type="button" data-prompt="Show my saved reports and useful outputs">
+              <span aria-hidden="true">▤</span>
+              <span>Library</span>
+            </button>
+            <button type="button" data-prompt="Open the learning hub and suggest study resources for business and AI">
+              <span aria-hidden="true">◉</span>
+              <span>Learning Hub</span>
+            </button>
+            <button type="button" data-prompt="Show available AI tools for business planning, research, uploads, and analysis">
+              <span aria-hidden="true">✦</span>
+              <span>AI Tools</span>
+            </button>
+            <button type="button" data-prompt="Show analytics ideas for my business chatbot">
+              <span aria-hidden="true">◌</span>
+              <span>Analytics</span>
+            </button>
+          </nav>
 
-        <section class="sidebar-section sidebar-group" aria-label="Projects">
-          <h2>📁 Projects</h2>
-          <button type="button" data-prompt="Build a resume checker bot with PDF upload">
-            <span aria-hidden="true"></span>
-            <span>ResumeRadar</span>
-          </button>
-          <button type="button" data-prompt="Create a question upload support feature">
-            <span aria-hidden="true"></span>
-            <span>Question Upload</span>
-          </button>
-          <button type="button" data-prompt="Business plan generator">
-            <span aria-hidden="true"></span>
-            <span>Business Plan Generator</span>
-          </button>
-          <button type="button" data-prompt="Market research assistant for my business">
-            <span aria-hidden="true"></span>
-            <span>Market Research</span>
-          </button>
-        </section>
+          <section class="sidebar-section sidebar-group" aria-label="Projects">
+            <h2>Projects ▼</h2>
+            <button type="button" data-prompt="Build a resume checker bot with PDF upload">
+              <span aria-hidden="true">•</span>
+              <span>ResumeRadar</span>
+            </button>
+            <button type="button" data-prompt="Create a question upload support feature">
+              <span aria-hidden="true">•</span>
+              <span>Question Upload</span>
+            </button>
+            <button type="button" data-prompt="Business plan generator">
+              <span aria-hidden="true">•</span>
+              <span>Business Plan</span>
+            </button>
+          </section>
 
-        <section class="recents sidebar-group" aria-label="Recent chats">
-          <h2>🕒 Today</h2>
-          <button type="button" data-prompt="Startup Ideas">Startup Ideas</button>
-          <button type="button" data-prompt="Competitor analysis for my business">Competitor Analysis</button>
-          <button type="button" data-prompt="Sales and marketing strategy">Marketing Strategy</button>
+          <section class="recents sidebar-group" aria-label="Recent chats">
+            <h2>Recent Chats</h2>
+            <button type="button" data-prompt="Startup Ideas">Startup Ideas</button>
+            <button type="button" data-prompt="Competitor analysis for my business">Competitor Analysis</button>
+            <button type="button" data-prompt="Sales and marketing strategy">Marketing Strategy</button>
+            <button type="button" data-prompt="Business Model Canvas">Business Model Canvas</button>
+            <button type="button" data-prompt="SWOT analysis generator">SWOT Analysis</button>
+          </section>
 
-          <h2>🕒 Yesterday</h2>
-          <button type="button" data-prompt="Business Model Canvas">Business Model Canvas</button>
-          <button type="button" data-prompt="SWOT analysis generator">SWOT Analysis</button>
-
-          <h2>🕒 Previous 7 Days</h2>
-          <button type="button" data-prompt="Investor Pitch Deck">Investor Pitch Deck</button>
-          <button type="button" data-prompt="Sales Forecast">Sales Forecast</button>
-        </section>
-
-        <section class="saved-reports" aria-label="Saved reports">
-          <div class="saved-header">
-            <h2>Saved</h2>
-            <button type="button" id="clearReports">Clear</button>
-          </div>
-          <div id="reportsList" class="reports-list"></div>
-        </section>
+          <section class="saved-reports" aria-label="Saved reports" hidden>
+            <div class="saved-header">
+              <h2>Saved</h2>
+              <button type="button" id="clearReports">Clear</button>
+            </div>
+            <div id="reportsList" class="reports-list"></div>
+          </section>
+        </div>
 
         <div class="sidebar-account">
-          <button type="button" data-prompt="Help me sign in or create an account for Business Bot">
+          <button id="accountButton" type="button">
             <span aria-hidden="true">👤</span>
-            <strong>Sushil</strong>
-            <small>Sign in / Login account</small>
+            <strong id="accountLabel">User</strong>
           </button>
-          <button type="button" data-prompt="Open settings for Business Bot">
+          <button type="button" data-prompt="Show Business Bot settings: AI model key, response mode, upload limits, saved reports, and theme options.">
             <span aria-hidden="true">⚙️</span>
             <strong>Settings</strong>
           </button>
-          <button type="button" data-prompt="Switch between dark mode and light mode">
+          <button type="button" data-prompt="Show theme options and explain how to switch Business Bot between dark and light UI modes.">
             <span aria-hidden="true">🌙</span>
-            <strong>Dark Mode</strong>
-          </button>
-          <button type="button" data-prompt="Help me use Business Bot features">
-            <span aria-hidden="true">❓</span>
-            <strong>Help</strong>
+            <strong>Theme</strong>
           </button>
         </div>
       </aside>
@@ -171,10 +162,10 @@
                 placeholder="Ask anything"
               />
               <div class="composer-tools">
-                <button class="tool-chip" type="button" data-mode="advisor">Auto</button>
-                <button class="tool-chip" type="button" data-mode="plan">Plan</button>
-                <button class="tool-chip active" type="button" data-depth="standard">Standard</button>
-                <button class="tool-chip" type="button" data-depth="deep">Deep</button>
+                <button class="tool-chip active" id="uploadTool" type="button">📎 Upload</button>
+                <button class="tool-chip" id="voiceTool" type="button">🎤 Voice</button>
+                <button class="tool-chip" id="webSearchTool" type="button">🌐 Web Search</button>
+                <button class="tool-chip" id="deepResearchTool" type="button">🧠 Deep Research</button>
               </div>
               <button class="send-button icon-only" type="submit" aria-label="Send message">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -191,6 +182,40 @@
         </div>
       </section>
     </main>
+
+    <div class="account-modal" id="accountModal" hidden>
+      <div class="account-dialog" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
+        <div class="account-dialog-header">
+          <div>
+            <p class="eyebrow">Business Bot account</p>
+            <h2 id="accountTitle">Create your account</h2>
+          </div>
+          <button class="modal-close" id="closeAccountModal" type="button" aria-label="Close account dialog">x</button>
+        </div>
+
+        <form class="account-form" id="accountForm">
+          <label>
+            <span>Name</span>
+            <input id="accountNameInput" name="name" autocomplete="name" placeholder="Your name" required />
+          </label>
+          <label>
+            <span>Email</span>
+            <input id="accountEmailInput" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input id="accountPasswordInput" name="password" type="password" autocomplete="new-password" placeholder="Minimum 6 characters" required />
+          </label>
+          <p class="account-note">
+            This demo account is saved only in this browser. Connect backend auth later for real login.
+          </p>
+          <div class="account-actions">
+            <button class="secondary-account" id="logoutAccount" type="button">Logout</button>
+            <button class="primary-account" type="submit">Create / Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <script src="app.js"></script>
   </body>
