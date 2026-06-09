@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BUISNESS BOT</title>
+    <link rel="stylesheet" href="styles.css?v=steady-sidebar-1" />
+  </head>
+  <body>
+    <div class="ai-background" aria-hidden="true">
+      <div class="ai-brain"></div>
+    </div>
+    <main class="chatgpt-shell">
+      <aside class="gpt-sidebar" aria-label="Workspace navigation">
+        <div class="sidebar-brand">
+          <span>🚀</span>
+          <strong>BUSINESS BOT</strong>
+        </div>
+
+        <label class="search-box" aria-label="Search conversations">
+          <span aria-hidden="true">🔍</span>
+          <input type="search" placeholder="Search" />
+        </label>
+
+        <button class="new-chat-button" id="resetChat" type="button">
+          <span aria-hidden="true">➕</span>
+          <span>New Chat</span>
+        </button>
+
+        <nav class="primary-nav sidebar-group" aria-label="Primary">
+          <button type="button" data-prompt="Show my saved reports and useful outputs">
+            <span aria-hidden="true">📚</span>
+            <span>Library</span>
+          </button>
+          <button type="button" data-prompt="Open the learning hub and suggest study resources for business and AI">
+            <span aria-hidden="true">🎓</span>
+            <span>Learning Hub</span>
+          </button>
+          <button type="button" data-prompt="Show analytics ideas for my business chatbot">
+            <span aria-hidden="true">📊</span>
+            <span>Analytics</span>
+          </button>
+          <button type="button" data-prompt="Show my saved reports and useful outputs">
+            <span aria-hidden="true">💾</span>
+            <span>Saved Reports</span>
+          </button>
+        </nav>
+
+        <section class="sidebar-section sidebar-group" aria-label="Projects">
+          <h2>📁 Projects</h2>
+          <button type="button" data-prompt="Build a resume checker bot with PDF upload">
+            <span aria-hidden="true"></span>
+            <span>ResumeRadar</span>
+          </button>
+          <button type="button" data-prompt="Create a question upload support feature">
+            <span aria-hidden="true"></span>
+            <span>Question Upload</span>
+          </button>
+          <button type="button" data-prompt="Business plan generator">
+            <span aria-hidden="true"></span>
+            <span>Business Plan Generator</span>
+          </button>
+          <button type="button" data-prompt="Market research assistant for my business">
+            <span aria-hidden="true"></span>
+            <span>Market Research</span>
+          </button>
+        </section>
+
+        <section class="recents sidebar-group" aria-label="Recent chats">
+          <h2>🕒 Today</h2>
+          <button type="button" data-prompt="Startup Ideas">Startup Ideas</button>
+          <button type="button" data-prompt="Competitor analysis for my business">Competitor Analysis</button>
+          <button type="button" data-prompt="Sales and marketing strategy">Marketing Strategy</button>
+
+          <h2>🕒 Yesterday</h2>
+          <button type="button" data-prompt="Business Model Canvas">Business Model Canvas</button>
+          <button type="button" data-prompt="SWOT analysis generator">SWOT Analysis</button>
+
+          <h2>🕒 Previous 7 Days</h2>
+          <button type="button" data-prompt="Investor Pitch Deck">Investor Pitch Deck</button>
+          <button type="button" data-prompt="Sales Forecast">Sales Forecast</button>
+        </section>
+
+        <section class="saved-reports" aria-label="Saved reports">
+          <div class="saved-header">
+            <h2>Saved</h2>
+            <button type="button" id="clearReports">Clear</button>
+          </div>
+          <div id="reportsList" class="reports-list"></div>
+        </section>
+
+        <div class="sidebar-account">
+          <button type="button" data-prompt="Help me sign in or create an account for Business Bot">
+            <span aria-hidden="true">👤</span>
+            <strong>Sushil</strong>
+            <small>Sign in / Login account</small>
+          </button>
+          <button type="button" data-prompt="Open settings for Business Bot">
+            <span aria-hidden="true">⚙️</span>
+            <strong>Settings</strong>
+          </button>
+          <button type="button" data-prompt="Switch between dark mode and light mode">
+            <span aria-hidden="true">🌙</span>
+            <strong>Dark Mode</strong>
+          </button>
+          <button type="button" data-prompt="Help me use Business Bot features">
+            <span aria-hidden="true">❓</span>
+            <strong>Help</strong>
+          </button>
+        </div>
+      </aside>
+
+      <section class="chat-card gpt-main" aria-label="Chat conversation">
+        <header class="gpt-topbar">
+          <button class="model-pill" type="button">
+            <span>BUISNESS BOT Auto</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+          <div class="topbar-actions">
+            <button class="mini-icon" id="saveReport" type="button" aria-label="Save latest report" title="Save latest report">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3v12" />
+                <path d="m7 10 5 5 5-5" />
+                <path d="M5 21h14" />
+              </svg>
+            </button>
+            <button class="mini-icon" id="copyLatest" type="button" aria-label="Copy latest answer" title="Copy latest answer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 8h10v12H8z" />
+                <path d="M6 16H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="messages" id="messages" aria-live="polite"></div>
+
+        <div class="bottom-dock">
+          <div class="quick-actions" aria-label="Quick message options">
+            <button type="button" data-prompt="What is API?">Tech</button>
+            <button type="button" data-prompt="How can I improve my resume?">Career</button>
+            <button type="button" data-prompt="How can I get more customers for my shop?">Business</button>
+            <button type="button" data-prompt="Explain all available full stack AI chatbot features">Full stack</button>
+          </div>
+
+          <div class="suggestions" id="suggestions" aria-label="Suggested replies"></div>
+
+          <form class="composer" id="chatForm">
+            <input
+              class="sr-only"
+              id="fileInput"
+              type="file"
+              accept=".pdf,.ppt,.pptx,image/*,video/*"
+              multiple
+            />
+            <div class="attachment-tray" id="attachmentTray" aria-label="Selected attachments"></div>
+            <div class="composer-row">
+              <label class="attach-button icon-only" id="attachButton" for="fileInput" aria-label="Attach files" title="Attach PPT, PDF, images, screenshots, or videos">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 5v14" />
+                  <path d="M5 12h14" />
+                </svg>
+              </label>
+              <label class="sr-only" for="messageInput">Message</label>
+              <input
+                id="messageInput"
+                name="message"
+                autocomplete="off"
+                placeholder="Ask anything"
+              />
+              <div class="composer-tools">
+                <button class="tool-chip" type="button" data-mode="advisor">Auto</button>
+                <button class="tool-chip" type="button" data-mode="plan">Plan</button>
+                <button class="tool-chip active" type="button" data-depth="standard">Standard</button>
+                <button class="tool-chip" type="button" data-depth="deep">Deep</button>
+              </div>
+              <button class="send-button icon-only" type="submit" aria-label="Send message">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 19V5" />
+                  <path d="m5 12 7-7 7 7" />
+                </svg>
+              </button>
+            </div>
+          </form>
+
+          <button class="sr-only" id="exportChat" type="button">Export</button>
+          <button class="sr-only" type="button" data-mode="explain">Explain</button>
+          <button class="sr-only" type="button" data-depth="quick">Quick</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

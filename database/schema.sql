@@ -1,0 +1,32 @@
+CREATE TABLE users (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name VARCHAR(120),
+  email VARCHAR(180) UNIQUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE chat_sessions (
+  id VARCHAR(80) PRIMARY KEY,
+  user_id BIGINT REFERENCES users(id),
+  title VARCHAR(180),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE chat_messages (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  session_id VARCHAR(80) REFERENCES chat_sessions(id),
+  role VARCHAR(30) NOT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE uploaded_files (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  session_id VARCHAR(80) REFERENCES chat_sessions(id),
+  original_name VARCHAR(255) NOT NULL,
+  content_type VARCHAR(120),
+  file_size BIGINT,
+  storage_path TEXT,
+  extracted_text TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

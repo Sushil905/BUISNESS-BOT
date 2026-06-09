@@ -1,0 +1,273 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color: #f3f8ff;
+  background: #040916;
+  color-scheme: dark;
+  --surface: rgba(9, 18, 36, 0.82);
+  --surface-soft: rgba(14, 29, 54, 0.7);
+  --line: rgba(137, 183, 255, 0.2);
+  --line-strong: rgba(137, 183, 255, 0.34);
+  --ink: #f3f8ff;
+  --ink-soft: #d7e4f5;
+  --muted: #90a2bc;
+  --blue: #62a6ff;
+  --teal: #18d6bc;
+  --rose: #ff7f88;
+  --shadow: 0 28px 90px rgba(0, 0, 0, 0.46);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 0% 4%, rgba(153, 38, 255, 0.48), transparent 27%),
+    radial-gradient(circle at 100% 7%, rgba(0, 139, 255, 0.34), transparent 30%),
+    radial-gradient(circle at 54% 92%, rgba(0, 116, 255, 0.24), transparent 40%),
+    linear-gradient(180deg, #031024 0%, #04091b 45%, #030717 100%);
+  color: var(--ink);
+}
+
+body::before,
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  content: "";
+}
+
+body::before {
+  background:
+    linear-gradient(90deg, rgba(121, 73, 255, 0.2) 0 1px, transparent 1px 42px),
+    linear-gradient(0deg, rgba(0, 145, 255, 0.12) 0 1px, transparent 1px 38px),
+    radial-gradient(circle at 9% 36%, rgba(126, 85, 255, 0.58) 0 2px, transparent 3px 100%),
+    radial-gradient(circle at 92% 12%, rgba(0, 174, 255, 0.42) 0 1px, transparent 2px 100%),
+    radial-gradient(circle at 95% 48%, rgba(0, 112, 255, 0.5) 0 2px, transparent 3px 100%),
+    radial-gradient(circle at 19% 70%, rgba(151, 50, 255, 0.5) 0 1px, transparent 2px 100%),
+    linear-gradient(90deg, rgba(140, 64, 255, 0.16), transparent 18% 82%, rgba(0, 142, 255, 0.16));
+  background-size:
+    100% 100%,
+    100% 100%,
+    150px 120px,
+    190px 170px,
+    210px 190px,
+    170px 140px,
+    100% 100%;
+  mask-image: linear-gradient(90deg, #000 0 19%, transparent 38% 65%, #000 84% 100%);
+  opacity: 0.58;
+  animation: dataDrift 28s linear infinite;
+}
+
+body::after {
+  z-index: -1;
+  top: auto;
+  height: 44vh;
+  background:
+    radial-gradient(circle at center, rgba(24, 214, 255, 0.9) 0 1px, transparent 1.8px),
+    radial-gradient(circle at center, rgba(169, 46, 255, 0.78) 0 1px, transparent 1.7px),
+    linear-gradient(105deg, rgba(179, 55, 255, 0.72), rgba(0, 128, 255, 0.84) 48%, rgba(0, 208, 255, 0.78));
+  background-position:
+    0 0,
+    7px 8px,
+    0 0;
+  background-size:
+    15px 15px,
+    17px 17px,
+    100% 100%;
+  border-radius: 50% 50% 0 0 / 34% 34% 0 0;
+  filter: blur(0.2px) drop-shadow(0 -18px 34px rgba(0, 120, 255, 0.22));
+  mask-image:
+    radial-gradient(ellipse at 50% 78%, #000 0 52%, transparent 74%),
+    linear-gradient(180deg, transparent 0, #000 22%, #000 100%);
+  opacity: 0.78;
+  transform: perspective(760px) rotateX(58deg) translateY(12vh) scaleX(1.24);
+  transform-origin: bottom center;
+  animation: waveDrift 16s ease-in-out infinite alternate;
+}
+
+@keyframes dataDrift {
+  from {
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+  }
+
+  to {
+    background-position:
+      0 0,
+      0 0,
+      150px 120px,
+      -190px 170px,
+      210px -190px,
+      -170px -140px,
+      0 0;
+  }
+}
+
+@keyframes waveDrift {
+  from {
+    background-position:
+      0 0,
+      7px 8px,
+      0 0;
+    transform: perspective(760px) rotateX(58deg) translateY(12vh) scaleX(1.24);
+  }
+
+  to {
+    background-position:
+      26px -10px,
+      -18px 18px,
+      0 0;
+    transform: perspective(760px) rotateX(56deg) translateY(10vh) scaleX(1.28);
+  }
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 16px;
+  padding: 16px;
+}
+
+.sidebar,
+.chat-shell {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(12, 24, 47, 0.9), rgba(7, 15, 31, 0.82)),
+    var(--surface);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px) saturate(150%);
+}
+
+.sidebar {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 16px;
+}
+
+.sidebar button,
+.composer button,
+.attach-button {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+  color: var(--ink-soft);
+  font-weight: 800;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: linear-gradient(145deg, rgba(15, 26, 57, 0.98), rgba(36, 24, 86, 0.92));
+  color: #fff;
+  font-weight: 900;
+}
+
+.chat-shell {
+  min-height: calc(100vh - 32px);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+}
+
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  overflow-y: auto;
+  background:
+    linear-gradient(rgba(5, 12, 25, 0.88), rgba(5, 12, 25, 0.88)),
+    linear-gradient(135deg, rgba(49, 92, 255, 0.14), transparent 34%);
+}
+
+.message {
+  max-width: min(760px, 82%);
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(11, 24, 45, 0.92);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  white-space: pre-line;
+}
+
+.message.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #147dff, #18d6bc);
+  color: #02101b;
+  font-weight: 760;
+}
+
+.composer {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.composer > input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.composer-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+}
+
+.composer-row input {
+  min-width: 0;
+  height: 46px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface-soft);
+  color: var(--ink);
+  padding: 0 12px;
+}
+
+.attachment-tray {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.attachment-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--surface-soft);
+}

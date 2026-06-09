@@ -1,28 +1,33 @@
-# BUISNESS BOT
+# AI-CHATBOT
 
-BUISNESS BOT AI is a Spring Boot business assistant that helps users generate
-business ideas, analyze markets, create business plans, evaluate competitors,
-and develop growth strategies through an intelligent conversational interface.
-The frontend is served from Spring Boot static resources and talks to a Java
-REST API.
+Professional AI chatbot monorepo for BUISNESS BOT.
 
-## Run
+The project now has a production-style structure with a working Spring Boot backend, a React frontend scaffold, an AI engine workspace, database scripts, docs, Docker files, and test folders.
 
-Install Maven, set your OpenAI API key, then run:
+## Structure
 
-```bash
-export OPENAI_API_KEY=your_api_key_here
-mvn spring-boot:run
+```text
+AI-CHATBOT/
+├── frontend/        React/Vite UI scaffold
+├── backend/         Spring Boot API and current working static UI
+├── ai-engine/       Prompts, agents, memory, RAG, embeddings, LLM planning
+├── database/        Schema, migrations, seeds
+├── docs/            API docs, system design, architecture
+├── docker/          Dockerfiles and compose file
+├── tests/           Frontend, backend, and API test folders
+├── .env.example     Environment variable template
+├── .gitignore
+├── README.md
+└── LICENSE
 ```
 
-Optional model override:
+## Backend Run
 
 ```bash
-export OPENAI_MODEL=gpt-5.5
+cd backend
+export GEMINI_API_KEY=your_gemini_api_key_here
+mvn -Dmaven.repo.local=../.m2/repository spring-boot:run
 ```
-
-If `OPENAI_API_KEY` is not set, the app still runs with local rule-based
-fallback answers.
 
 Open:
 
@@ -30,41 +35,76 @@ Open:
 http://localhost:8080
 ```
 
-Chat API:
+The backend still serves the current polished chatbot UI from:
 
-```http
-POST /api/chat
-Content-Type: application/json
-
-{
-  "sessionId": "demo-session",
-  "message": "Meri clinic ke liye website aur chatbot chahiye, budget 25000"
-}
+```text
+backend/src/main/resources/static
 ```
 
-## Current Features
+## Frontend Run
 
-- Business idea generator
-- Market research assistant
-- Competitor analysis
-- Business plan generator
-- Sales and marketing strategy
-- Startup cost calculator
-- Pitch deck content generator
-- Customer persona builder
-- SWOT analysis generator
-- Chat history and saved reports through browser local storage
-- OpenAI-powered intelligent answers when `OPENAI_API_KEY` is configured
-- Spring Boot REST endpoint
-- Java service for chatbot replies
-- Business service matching
-- Simple package and quote recommendations
-- Lead detail extraction for service, business type, budget, email, and phone
-- Responsive layout for mobile and desktop
+The React scaffold is ready for a full SPA migration.
 
-## Next Ideas
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-- Connect the chat to an AI API
-- Save leads to MySQL, PostgreSQL, or Google Sheet
-- Add admin settings for services and package prices
-- Send booking notifications by email or WhatsApp
+Frontend dev server:
+
+```text
+http://localhost:5173
+```
+
+## AI Providers
+
+Primary free-friendly option:
+
+```bash
+GEMINI_API_KEY=your_key
+GEMINI_MODEL=gemini-2.5-flash-lite
+```
+
+Fallback:
+
+```bash
+OPENAI_API_KEY=your_key
+OPENAI_MODEL=gpt-5.5
+```
+
+If no API keys are set, the backend uses local rule-based fallback answers.
+
+## Features
+
+- Professional 3-panel AI workspace UI
+- Chat with mode/depth controls
+- Gemini-first and OpenAI fallback AI provider support
+- Local fallback chatbot logic
+- PPT/PDF/image/screenshot/video upload preview
+- Attachment-aware chat request payloads
+- Saved reports in local browser storage
+- Export chat transcript
+- AI engine planning folders for prompts, agents, RAG, memory, embeddings, and LLM routing
+- Database schema scaffold
+- Docker scaffold
+- Docs scaffold
+
+## Verification
+
+Backend:
+
+```bash
+cd backend
+mvn -Dmaven.repo.local=../.m2/repository test
+```
+
+## Next Upgrade
+
+For true deep file understanding:
+
+- PDF text extraction
+- PPT/PPTX slide extraction
+- Image OCR
+- Video transcription
+- RAG over uploaded files

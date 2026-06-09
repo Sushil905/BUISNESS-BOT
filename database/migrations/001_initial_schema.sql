@@ -1,0 +1,1 @@
+-- Initial schema is mirrored in ../schema.sql.
